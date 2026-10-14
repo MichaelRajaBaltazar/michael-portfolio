@@ -56,7 +56,9 @@ contactForm?.addEventListener('submit', async event => {
     contactFormStatus.classList.remove('is-error');
 
     try {
-        const response = await fetch('https://formsubmit.co/ajax/angelobatazar50@gmail.com', {
+        const formSubmitEndpoint = new URL(contactForm.action);
+        formSubmitEndpoint.pathname = `/ajax${formSubmitEndpoint.pathname}`;
+        const response = await fetch(formSubmitEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
