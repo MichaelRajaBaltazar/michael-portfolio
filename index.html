@@ -1125,9 +1125,11 @@
                 </div>
                 <button class="contact-form-close" type="button" aria-label="Close email form">×</button>
             </div>
-            <form class="contact-form" action="https://formsubmit.co/angelobaltazar50@gmail.com" method="POST" accept-charset="UTF-8">
-                <input type="hidden" name="_subject" value="New portfolio contact message">
-                <input type="hidden" name="_captcha" value="false">
+            <form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="contact">
+                <p class="contact-form-honeypot" hidden>
+                    <label>Don’t fill this out: <input name="bot-field"></label>
+                </p>
                 <label>
                     Your name
                     <input name="name" type="text" autocomplete="name" required>
@@ -1146,6 +1148,7 @@
                 </label>
                 <button class="btn light" type="submit">Send Email</button>
                 <p class="contact-form-note">Your message will be sent directly to my email.</p>
+                <p class="contact-form-status" role="status" aria-live="polite" hidden></p>
             </form>
         </dialog>
 
