@@ -66,7 +66,7 @@ contactForm?.addEventListener('submit', async event => {
         });
 
         if (!response.ok) {
-            throw new Error('The form service could not receive your message.');
+            throw new Error(`The form service returned HTTP ${response.status}.`);
         }
 
         contactFormStatus.textContent = 'Message sent successfully. Thank you for reaching out!';
