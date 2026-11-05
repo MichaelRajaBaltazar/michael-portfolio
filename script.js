@@ -21,10 +21,7 @@ document.querySelectorAll('nav a').forEach(a => {
 ========================= */
 
 const contactFormDialog = document.getElementById('contact-email-dialog');
-const contactForm = contactFormDialog?.querySelector('.contact-form');
 const closeContactForm = contactFormDialog?.querySelector('.contact-form-close');
-const contactFormStatus = contactForm?.querySelector('.contact-form-status');
-const contactFormSubmit = contactForm?.querySelector('[type="submit"]');
 
 document.querySelectorAll('[data-open-contact-form]').forEach(trigger => {
     trigger.addEventListener('click', event => {
@@ -40,50 +37,6 @@ closeContactForm?.addEventListener('click', () => {
 contactFormDialog?.addEventListener('click', event => {
     if (event.target === contactFormDialog) {
         contactFormDialog.close();
-    }
-});
-
-contactForm?.addEventListener('submit', async event => {
-    event.preventDefault();
-
-    if (!contactForm.reportValidity() || !contactFormStatus || !contactFormSubmit) {
-        return;
-    }
-
-    contactFormSubmit.disabled = true;
-    contactFormSubmit.textContent = 'Sending...';
-    contactFormStatus.hidden = true;
-    contactFormStatus.classList.remove('is-error');
-
-    try {
-        const formSubmitEndpoint = new URL(contactForm.action);
-        formSubmitEndpoint.pathname = `/ajax${formSubmitEndpoint.pathname}`;
-        const response = await fetch(formSubmitEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            },
-            body: JSON.stringify(Object.fromEntries(new FormData(contactForm)))
-        });
-        const result = await response.json();
-
-        if (!response.ok || (result.success !== true && result.success !== 'true')) {
-            throw new Error(result.message || 'The email service could not send your message.');
-        }
-
-        contactFormStatus.textContent = 'Message sent successfully. Thank you for reaching out!';
-        contactFormStatus.hidden = false;
-        contactForm.reset();
-    } catch (error) {
-        contactFormStatus.textContent = error instanceof Error
-            ? `Unable to send your message: ${error.message}`
-            : 'Unable to send your message. Please try again.';
-        contactFormStatus.classList.add('is-error');
-        contactFormStatus.hidden = false;
-    } finally {
-        contactFormSubmit.disabled = false;
-        contactFormSubmit.textContent = 'Send Email';
     }
 });
 
