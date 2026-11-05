@@ -57,7 +57,7 @@ contactForm?.addEventListener('submit', async event => {
 
     try {
         const formData = new FormData(contactForm);
-        const response = await fetch('/', {
+        const response = await fetch(contactForm.action || window.location.pathname, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
